@@ -1,0 +1,10 @@
+<% if current_user %>
+    <h1><%= current_user.nickname %></h1>
+    <p><%= link_to "Edit Account", edit_user_registration_path(current_user) %></p>
+    <%= image_tag current_user.avatar %>
+<% else %>
+    Please <%= link_to "Sign Up or Login", "/users/sign_in" %>:
+<% end %>
+
+
+
