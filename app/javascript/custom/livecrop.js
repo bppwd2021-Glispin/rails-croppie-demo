@@ -24,6 +24,7 @@ function popupResult(result) {
 
 function cropSample() {
     var $tag = $('#avatar-crop');
+    $tag.croppie('destroy');
     $tag.croppie({
         viewport: {
             width: 150,
@@ -32,32 +33,49 @@ function cropSample() {
         boundary: {
             width: 300,
             height: 300
+        },
+        showZoomer: false
+    });
+    
+    var file = $('#file-upload').get(0).files[0];
+    
+    if(file){
+        var reader = new FileReader();
+        
+        reader.onload = function(){
+            $tag.croppie('bind', {
+                url: reader.result
+            });
         }
-    });
 
-    $tag .croppie('bind', {
-        url: '/images/avatar-sample.png',
-        points: [77,469,280,739]
-    });
-
-    $('#avatar-crop').on('click', function() {
+        reader.readAsDataURL(file);
+    }
+    else{
+        $tag.croppie('destroy');
+    }
+    
+    $('#save-crop').on('click', function() {
         size = 'viewport';
         $tag.croppie('result', {
-            type: 'canvas',
+            type: 'blob',
                 size: size,
                 resultSize: {
                     width: 150,
                     height: 150
                 }
         }).then(function (resp) {
-            popupResult({
-                src: resp
-            });
+            document.getElementById('hidden-upload').value = resp;
+            console.log(document.getElementById('hidden-upload').value)
+            console.log(document.getElementById('file-upload').value)
         });
     });
 }
 
 // invoke cropSample AFTER page load
+// document.addEventListener('DOMContentLoaded', () => {
+//     new cropSample();
+//   });
+
 document.addEventListener('DOMContentLoaded', () => {
-    new cropSample();
+    document.getElementById('file-upload').onchange = function(){new cropSample();};
   });

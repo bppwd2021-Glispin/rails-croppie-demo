@@ -9,12 +9,19 @@
   </div>
 
   <div class="field">
-    <%= f.label :avatar %>
-    <%= f.file_field :avatar %>
+    <%= f.label :other_avatar %>
+    <%= f.file_field :other_avatar, id: 'file-upload' %>
   </div>
 
   <div id="avatar-crop" ></div>
-  
+
+  <div>
+      <button id="save-crop" type="button">
+          Save
+      </button>
+  </div>
+
+  <%= f.hidden_field :avatar, id: 'hidden-upload' %>
 
   <div class="field">
     <%= f.label :email %><br />
